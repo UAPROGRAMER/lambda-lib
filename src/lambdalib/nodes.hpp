@@ -17,49 +17,49 @@ public:
 
 class Variable : public LambdaBase {
 public:
-  char value;
+  char name;
 
-  Variable(char value) : value(value) {}
+  Variable(char name) : name(name) {}
 
   LambdaType getType() const override { return LambdaType::VARIABLE; }
 
   std::unique_ptr<LambdaBase> copy() const override {
-    return std::make_unique<Variable>(value);
+    return std::make_unique<Variable>(name);
   }
 
   inline bool operator==(const Variable& other) const {
-    return value == other.value;
+    return name == other.name;
   }
 };
 
 class Function : public LambdaBase {
 public:
-  Variable input;
+  Variable argument;
   std::unique_ptr<LambdaBase> body;
 
-  Function(Variable input, std::unique_ptr<LambdaBase> body)
-    : input(std::move(input)), body(std::move(body)) {}
+  Function(Variable argument, std::unique_ptr<LambdaBase> body)
+    : argument(std::move(argument)), body(std::move(body)) {}
 
   LambdaType getType() const override { return LambdaType::FUNCTION; }
 
   std::unique_ptr<LambdaBase> copy() const override {
-    return std::make_unique<Function>(input, body->copy());
+    return std::make_unique<Function>(argument, body->copy());
   }
 };
 
 class Application : public LambdaBase {
 public:
-  std::unique_ptr<LambdaBase> func;
-  std::unique_ptr<LambdaBase> input;
+  std::unique_ptr<LambdaBase> left;
+  std::unique_ptr<LambdaBase> right;
 
   Application(
-    std::unique_ptr<LambdaBase> func, std::unique_ptr<LambdaBase> input)
-    : func(std::move(func)), input(std::move(input)) {}
+    std::unique_ptr<LambdaBase> left, std::unique_ptr<LambdaBase> right)
+    : left(std::move(left)), right(std::move(right)) {}
 
   LambdaType getType() const override { return LambdaType::APPLICATION; }
 
   std::unique_ptr<LambdaBase> copy() const override {
-    return std::make_unique<Application>(func->copy(), input->copy());
+    return std::make_unique<Application>(left->copy(), right->copy());
   }
 };
 

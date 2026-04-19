@@ -10,19 +10,19 @@ class PrintVisitor {
 private:
   bool outlineFunction = false;
 
-  void accept(std::unique_ptr<Variable>& node) { std::cout << node->value; }
+  void accept(std::unique_ptr<Variable>& node) { std::cout << node->name; }
 
   void accept(std::unique_ptr<Function>& node) {
     if (outlineFunction) std::cout << '(';
-    std::cout << '&' << node->input.value << '.';
+    std::cout << '&' << node->argument.name << '.';
     accept(node->body);
     if (outlineFunction) std::cout << ')';
   }
 
   void accept(std::unique_ptr<Application>& node) {
     std::cout << '(';
-    accept(node->func);
-    accept(node->input);
+    accept(node->left);
+    accept(node->right);
     std::cout << ')';
   }
 

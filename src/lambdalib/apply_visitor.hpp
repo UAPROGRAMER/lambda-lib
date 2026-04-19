@@ -6,28 +6,28 @@ namespace llib {
 
 class ApplyVisitor {
 private:
-  Variable input;
+  Variable argument;
   std::unique_ptr<LambdaBase> value;
 
   void accept(std::unique_ptr<Variable>& node) {
-    if (input == *node) (std::unique_ptr<LambdaBase>&)node = value->copy();
+    if (argument == *node) (std::unique_ptr<LambdaBase>&)node = value->copy();
   }
 
   void accept(std::unique_ptr<Function>& node) {
-    if (input == node->input) return;
+    if (argument == node->argument) return;
 
     accept(node->body);
   }
 
   void accept(std::unique_ptr<Application>& node) {
-    accept(node->func);
-    accept(node->input);
+    accept(node->left);
+    accept(node->right);
   }
 
 public:
   ApplyVisitor() = delete;
-  ApplyVisitor(Variable input, std::unique_ptr<LambdaBase> value)
-    : input(input), value(std::move(value)) {}
+  ApplyVisitor(Variable argument, std::unique_ptr<LambdaBase> value)
+    : argument(argument), value(std::move(value)) {}
 
   void accept(std::unique_ptr<LambdaBase>& node) {
     switch (node->getType()) {

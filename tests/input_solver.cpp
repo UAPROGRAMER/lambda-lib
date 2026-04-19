@@ -16,7 +16,7 @@ int main() {
   try {
     expression = parse(source);
   } catch (const std::runtime_error& e) {
-    std::cout << "Bad expression. " << e.what() << '\n';
+    std::cout << "Bad expression: " << e.what() << '\n';
     return 1;
   }
 

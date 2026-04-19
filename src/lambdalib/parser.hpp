@@ -31,7 +31,7 @@ private:
     skipSpaces();
     if (!std::isalpha(getChar()))
       throw std::runtime_error("Not a valid func parameter.");
-    std::unique_ptr<LambdaBase> input = parseVar();
+    std::unique_ptr<LambdaBase> argument = parseVar();
 
     skipSpaces();
     if (getChar() != '.')
@@ -41,17 +41,17 @@ private:
     std::unique_ptr<LambdaBase> body = parseAny();
 
     return std::make_unique<Function>(
-      *((std::unique_ptr<Variable>&)input), std::move(body));
+      *((std::unique_ptr<Variable>&)argument), std::move(body));
   }
 
   std::unique_ptr<LambdaBase> parseApp() {
     index++;
 
-    std::unique_ptr<LambdaBase> func = parseAny();
+    std::unique_ptr<LambdaBase> left = parseAny();
 
     skipSpaces();
 
-    std::unique_ptr<LambdaBase> input = parseAny();
+    std::unique_ptr<LambdaBase> right = parseAny();
 
     skipSpaces();
 
@@ -59,7 +59,7 @@ private:
 
     index++;
 
-    return std::make_unique<Application>(std::move(func), std::move(input));
+    return std::make_unique<Application>(std::move(left), std::move(right));
   }
 
   std::unique_ptr<LambdaBase> parseAny() {
