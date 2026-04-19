@@ -10,8 +10,8 @@ int main() {
   unique_ptr<LambdaBase> expression =  //
     make_unique<Application>(          //
       make_unique<Application>(        //
-        AND(),                         //
-        FALSE()                        //
+        NATURAL_NUMBER(6),             //
+        NOT()                          //
         ),                             //
       TRUE()                           //
     );                                 //

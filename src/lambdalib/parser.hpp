@@ -30,12 +30,12 @@ private:
 
     skipSpaces();
     if (!std::isalpha(getChar()))
-      throw std::runtime_error("Not a valid func parameter.");
+      throw std::runtime_error("No valid function parameter.");
     std::unique_ptr<LambdaBase> argument = parseVar();
 
     skipSpaces();
     if (getChar() != '.')
-      throw std::runtime_error("Not a valid function declaration.");
+      throw std::runtime_error("No dot after function parameter.");
     index++;
 
     std::unique_ptr<LambdaBase> body = parseAny();
@@ -88,7 +88,7 @@ public:
     skipSpaces();
 
     if (getChar() != '\0')
-      throw std::runtime_error("Unexprected characters in the end.");
+      throw std::runtime_error("Unexprected trailing characters.");
 
     return result;
   }
