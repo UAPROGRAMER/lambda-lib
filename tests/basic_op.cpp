@@ -10,25 +10,18 @@ int main() {
   unique_ptr<LambdaBase> expression =  //
     make_unique<Application>(          //
       make_unique<Application>(        //
-        make_unique<Application>(      //
-          IFTHENELSE(),                //
-          TRUE()                       //
-          ),                           //
-        TRUE()                         //
+        AND(),                         //
+        FALSE()                        //
         ),                             //
       TRUE()                           //
     );                                 //
 
-  ReduceVisitor reduceVisitor;
-
-  PrintVisitor printVisitor;
-
-  printVisitor.accept(expression);
+  print(expression);
   std::cout << '\n';
 
-  reduceVisitor.accept(expression);
+  reduce(expression);
 
-  printVisitor.accept(expression);
+  print(expression);
   std::cout << '\n';
 
   return 0;

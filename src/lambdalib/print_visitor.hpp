@@ -42,4 +42,8 @@ public:
   }
 };
 
+inline void print(std::unique_ptr<LambdaBase>& node) {
+  return PrintVisitor().accept(node);
+}
+
 }  // namespace lambdalib

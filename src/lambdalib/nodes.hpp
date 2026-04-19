@@ -1,17 +1,10 @@
 #pragma once
 
 #include <memory>
-#include <string>
-
-#include "visitor.hpp"
 
 namespace llib {
 
-enum class LambdaType {
-  VARIABLE,
-  FUNCTION,
-  APPLICATION,
-};
+enum class LambdaType { VARIABLE, FUNCTION, APPLICATION };
 
 class LambdaBase {
 public:
@@ -70,4 +63,4 @@ public:
   }
 };
 
-}  // namespace lambdalib
+}  // namespace llib
