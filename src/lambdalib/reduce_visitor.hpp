@@ -63,15 +63,10 @@ private:
   bool acceptApp(std::unique_ptr<LambdaBase>& node) {
     std::unique_ptr<Application>& app = (std::unique_ptr<Application>&)node;
 
-    if (app->left->getType() != LambdaType::FUNCTION) {
-      accept(app->left);
-      return true;
-    }
-
     if (app->left->getType() == LambdaType::FUNCTION) {
       std::unique_ptr<Function>& function =
         (std::unique_ptr<Function>&)app->left;
-
+      
       ApplyVisitor applyVisitor(function->argument, std::move(app->right));
 
       node = std::move(function->body);
@@ -81,7 +76,9 @@ private:
       return true;
     }
 
-    accept(app->right);
+    if (accept(app->left)) return true;
+
+    if (accept(app->right)) return true;
 
     return false;
   }

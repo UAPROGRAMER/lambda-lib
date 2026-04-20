@@ -9,11 +9,8 @@ using namespace llib::def;
 int main() {
   unique_ptr<LambdaBase> expression =  //
     make_unique<Application>(          //
-      make_unique<Application>(        //
-        NATURAL_NUMBER(6),             //
-        NOT()                          //
-        ),                             //
-      TRUE()                           //
+      SUCC(),                          //
+      NATURAL_NUMBER(7)                //
     );                                 //
 
   print(expression);

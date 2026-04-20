@@ -90,6 +90,27 @@ inline const std::unique_ptr<LambdaBase> IFTHENELSE =  //
       )                                                //
   );                                                   //
 
+inline const std::unique_ptr<LambdaBase> SUCC =  //
+  std::make_unique<Function>(                    //
+    Variable('n'),                               //
+    std::make_unique<Function>(                  //
+      Variable('f'),                             //
+      std::make_unique<Function>(                //
+        Variable('x'),                           //
+        std::make_unique<Application>(           //
+          std::make_unique<Variable>('f'),       //
+          std::make_unique<Application>(         //
+            std::make_unique<Application>(       //
+              std::make_unique<Variable>('n'),   //
+              std::make_unique<Variable>('f')    //
+              ),                                 //
+            std::make_unique<Variable>('x')      //
+            )                                    //
+          )                                      //
+        )                                        //
+      )                                          //
+  );                                             //
+
 }  // namespace val
 
 // SHORTHANDS
@@ -123,16 +144,15 @@ inline std::unique_ptr<LambdaBase> NATURAL_NUMBER(unsigned long long n) {
   std::unique_ptr<LambdaBase> result = std::make_unique<Variable>('x');
 
   for (; n != 0; n--)
-    result =
-      std::make_unique<Application>(std::make_unique<Variable>('f'), std::move(result));
-    
-  return std::make_unique<Function>(
-    Variable('f'),
-    std::make_unique<Function>(
-      Variable('x'),
-      std::move(result)
-    )
-  );
+    result = std::make_unique<Application>(
+      std::make_unique<Variable>('f'), std::move(result));
+
+  return std::make_unique<Function>(Variable('f'),
+    std::make_unique<Function>(Variable('x'), std::move(result)));
+}
+
+inline std::unique_ptr<LambdaBase> SUCC() {
+  return val::SUCC->copy();
 }
 
 }  // namespace def
